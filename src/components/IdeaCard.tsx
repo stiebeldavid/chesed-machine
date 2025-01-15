@@ -18,17 +18,19 @@ export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: Idea
       "perspective-1000 rounded-2xl",
       isFlipping && "animate-flip"
     )}>
-      <Button 
-        variant="ghost" 
-        size="icon"
-        className="absolute top-3 right-3 w-10 h-10 p-0 bg-white/70 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all"
-        onClick={(e) => {
-          e.stopPropagation();
-          onNewIdea();
-        }}
-      >
-        <RefreshCw className="h-5 w-5" />
-      </Button>
+      <div className="absolute top-0 right-0 w-16 h-16 flex items-center justify-center cursor-pointer z-10"
+           onClick={(e) => {
+             e.stopPropagation();
+             onNewIdea();
+           }}>
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="w-10 h-10 p-0 bg-white/70 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all pointer-events-none"
+        >
+          <RefreshCw className="h-5 w-5" />
+        </Button>
+      </div>
       <CardHeader className="py-4 px-5">
         <CardTitle className="text-xl font-fredoka text-[#8B5CF6] animate-bounce-slight">{title}</CardTitle>
       </CardHeader>
