@@ -21,7 +21,7 @@ export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: Idea
       <Button 
         variant="ghost" 
         size="icon"
-        className="absolute top-3 right-3 w-10 h-10 bg-white/70 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all"
+        className="absolute top-3 right-3 w-10 h-10 p-0 bg-white/70 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all"
         onClick={(e) => {
           e.stopPropagation();
           onNewIdea();
