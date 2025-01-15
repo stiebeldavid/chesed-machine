@@ -170,7 +170,7 @@ const Index = () => {
         </h1>
         
         <p className="text-center text-xl font-bubblegum text-[#4B5563] mb-2">
-          Tap the magical button below to generate a unique chesed idea just for you! ✨
+          Tap the button below to generate a unique chesed idea just for you! ✨
         </p>
 
         <Button 
