@@ -5,30 +5,7 @@ import { ShareModal } from "@/components/ShareModal";
 import { IdeasCounter } from "@/components/IdeasCounter";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-
-const actions = [
-  "Deliver hot chocolate to",
-  "Write a thank you note to",
-  "Buy coffee for",
-  "Give a compliment to",
-  "Share your lunch with",
-];
-
-const recipients = [
-  "someone you feel impatient with",
-  "a neighbor",
-  "someone who seems lonely",
-  "a friend you haven't spoken to in a while",
-  "someone who helped you recently",
-];
-
-const times = [
-  "during lunch",
-  "this weekend",
-  "today",
-  "this afternoon",
-  "when you have a free moment",
-];
+import { toast } from "sonner";
 
 const Index = () => {
   const [currentIdea, setCurrentIdea] = useState({
@@ -45,6 +22,24 @@ const Index = () => {
   });
 
   const queryClient = useQueryClient();
+
+  // Fetch idea components from the database
+  const { data: ideaComponents } = useQuery({
+    queryKey: ['ideaComponents'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('idea_components')
+        .select('*')
+        .single();
+      
+      if (error) {
+        console.error('Error fetching idea components:', error);
+        toast.error('Failed to load ideas');
+        return { what: [], whom: [], when_to: [] };
+      }
+      return data;
+    }
+  });
 
   // Fetch the current count
   const { data: counterData } = useQuery({
@@ -77,20 +72,22 @@ const Index = () => {
       return;
     }
 
-    // Invalidate the counter query to trigger a refetch
     queryClient.invalidateQueries({ queryKey: ['counter'] });
   };
 
   const generateNewAction = () => {
-    return actions[Math.floor(Math.random() * actions.length)];
+    const actions = ideaComponents?.what || [];
+    return actions[Math.floor(Math.random() * actions.length)] || "Loading...";
   };
 
   const generateNewRecipient = () => {
-    return recipients[Math.floor(Math.random() * recipients.length)];
+    const recipients = ideaComponents?.whom || [];
+    return recipients[Math.floor(Math.random() * recipients.length)] || "Loading...";
   };
 
   const generateNewTime = () => {
-    return times[Math.floor(Math.random() * times.length)];
+    const times = ideaComponents?.when_to || [];
+    return times[Math.floor(Math.random() * times.length)] || "Loading...";
   };
 
   const generateNewIdea = async () => {
@@ -158,7 +155,7 @@ const Index = () => {
 
   useEffect(() => {
     generateNewIdea();
-  }, []);
+  }, [ideaComponents]);
 
   const fullIdeaText = `${currentIdea.action} ${currentIdea.recipient} ${currentIdea.time}`;
 

@@ -1,1 +1,7 @@
 project_id = "ounlkhnkvfbvebjpolac"
+
+[api]
+enabled = true
+[api.edge_functions]
+[api.edge_functions.fetch-ideas]
+verify_jwt = false

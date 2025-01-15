@@ -24,6 +24,30 @@ export type Database = {
         }
         Relationships: []
       }
+      idea_components: {
+        Row: {
+          id: number
+          last_updated: string | null
+          what: string[]
+          when_to: string[]
+          whom: string[]
+        }
+        Insert: {
+          id?: number
+          last_updated?: string | null
+          what?: string[]
+          when_to?: string[]
+          whom?: string[]
+        }
+        Update: {
+          id?: number
+          last_updated?: string | null
+          what?: string[]
+          when_to?: string[]
+          whom?: string[]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
