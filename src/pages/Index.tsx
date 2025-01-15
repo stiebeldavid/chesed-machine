@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR4UjqO1VWlv1XBOTY7zCE9kc6IR_uShi5jvd-9vQDfEFPsnGjHizqvCHUt6c42E3Z9M287w3WKrxUv/pub?output=csv";
+
 const Index = () => {
   const [currentIdea, setCurrentIdea] = useState({
     action: "",
@@ -20,26 +22,17 @@ const Index = () => {
     recipient: false,
     time: false
   });
+  const [ideaComponents, setIdeaComponents] = useState<{
+    what: string[];
+    whom: string[];
+    when_to: string[];
+  }>({
+    what: [],
+    whom: [],
+    when_to: []
+  });
 
   const queryClient = useQueryClient();
-
-  // Fetch idea components from the database
-  const { data: ideaComponents } = useQuery({
-    queryKey: ['ideaComponents'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('idea_components')
-        .select('*')
-        .single();
-      
-      if (error) {
-        console.error('Error fetching idea components:', error);
-        toast.error('Failed to load ideas');
-        return { what: [], whom: [], when_to: [] };
-      }
-      return data;
-    }
-  });
 
   // Fetch the current count
   const { data: counterData } = useQuery({
@@ -58,6 +51,38 @@ const Index = () => {
     }
   });
 
+  useEffect(() => {
+    const fetchSheetData = async () => {
+      try {
+        const response = await fetch(SHEET_URL);
+        const csvText = await response.text();
+        
+        // Parse CSV
+        const rows = csvText.split('\n').map(row => row.split(','));
+        
+        // Skip header row and filter out empty rows
+        const dataRows = rows.slice(1).filter(row => row.length === 3);
+        
+        // Separate columns into arrays
+        const components = {
+          what: dataRows.map(row => row[0].trim()).filter(Boolean),
+          whom: dataRows.map(row => row[1].trim()).filter(Boolean),
+          when_to: dataRows.map(row => row[2].trim()).filter(Boolean)
+        };
+        
+        setIdeaComponents(components);
+        
+        // Generate first idea after loading data
+        generateNewIdea(components);
+      } catch (error) {
+        console.error('Error fetching sheet data:', error);
+        toast.error('Failed to load ideas');
+      }
+    };
+
+    fetchSheetData();
+  }, []);
+
   const incrementCounter = async () => {
     const { error } = await supabase
       .from('Counter')
@@ -75,22 +100,22 @@ const Index = () => {
     queryClient.invalidateQueries({ queryKey: ['counter'] });
   };
 
-  const generateNewAction = () => {
-    const actions = ideaComponents?.what || [];
+  const generateNewAction = (components = ideaComponents) => {
+    const actions = components.what;
     return actions[Math.floor(Math.random() * actions.length)] || "Loading...";
   };
 
-  const generateNewRecipient = () => {
-    const recipients = ideaComponents?.whom || [];
+  const generateNewRecipient = (components = ideaComponents) => {
+    const recipients = components.whom;
     return recipients[Math.floor(Math.random() * recipients.length)] || "Loading...";
   };
 
-  const generateNewTime = () => {
-    const times = ideaComponents?.when_to || [];
+  const generateNewTime = (components = ideaComponents) => {
+    const times = components.when_to;
     return times[Math.floor(Math.random() * times.length)] || "Loading...";
   };
 
-  const generateNewIdea = async () => {
+  const generateNewIdea = async (components = ideaComponents) => {
     setFlippingStates({
       action: true,
       recipient: true,
@@ -101,9 +126,9 @@ const Index = () => {
     
     setTimeout(() => {
       setCurrentIdea({
-        action: generateNewAction(),
-        recipient: generateNewRecipient(),
-        time: generateNewTime(),
+        action: generateNewAction(components),
+        recipient: generateNewRecipient(components),
+        time: generateNewTime(components),
       });
       setIsAnimating(true);
       
@@ -152,10 +177,6 @@ const Index = () => {
       setFlippingStates(prev => ({ ...prev, time: false }));
     }, 400);
   };
-
-  useEffect(() => {
-    generateNewIdea();
-  }, [ideaComponents]);
 
   const fullIdeaText = `${currentIdea.action} ${currentIdea.recipient} ${currentIdea.time}`;
 
