@@ -73,7 +73,7 @@ const Index = () => {
         setIdeaComponents(components);
         
         // Generate first idea after loading data
-        generateNewIdea(components);
+        generateNewIdea();
       } catch (error) {
         console.error('Error fetching sheet data:', error);
         toast.error('Failed to load ideas');
@@ -101,21 +101,21 @@ const Index = () => {
   };
 
   const generateNewAction = (components = ideaComponents) => {
-    const actions = components.what;
-    return actions[Math.floor(Math.random() * actions.length)] || "Loading...";
+    const actions = components?.what || [];
+    return actions.length > 0 ? actions[Math.floor(Math.random() * actions.length)] : "Loading...";
   };
 
   const generateNewRecipient = (components = ideaComponents) => {
-    const recipients = components.whom;
-    return recipients[Math.floor(Math.random() * recipients.length)] || "Loading...";
+    const recipients = components?.whom || [];
+    return recipients.length > 0 ? recipients[Math.floor(Math.random() * recipients.length)] : "Loading...";
   };
 
   const generateNewTime = (components = ideaComponents) => {
-    const times = components.when_to;
-    return times[Math.floor(Math.random() * times.length)] || "Loading...";
+    const times = components?.when_to || [];
+    return times.length > 0 ? times[Math.floor(Math.random() * times.length)] : "Loading...";
   };
 
-  const generateNewIdea = async (components = ideaComponents) => {
+  const generateNewIdea = async () => {
     setFlippingStates({
       action: true,
       recipient: true,
@@ -126,9 +126,9 @@ const Index = () => {
     
     setTimeout(() => {
       setCurrentIdea({
-        action: generateNewAction(components),
-        recipient: generateNewRecipient(components),
-        time: generateNewTime(components),
+        action: generateNewAction(),
+        recipient: generateNewRecipient(),
+        time: generateNewTime(),
       });
       setIsAnimating(true);
       
