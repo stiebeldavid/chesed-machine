@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface IdeaCardProps {
   title: string;
@@ -11,6 +12,20 @@ interface IdeaCardProps {
 }
 
 export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: IdeaCardProps) {
+  const [displayContent, setDisplayContent] = useState(content);
+  
+  useEffect(() => {
+    if (isFlipping) {
+      // Wait for card to be mid-flip before updating content
+      const timer = setTimeout(() => {
+        setDisplayContent(content);
+      }, 200); // Half of the flip animation duration
+      return () => clearTimeout(timer);
+    } else {
+      setDisplayContent(content);
+    }
+  }, [content, isFlipping]);
+
   return (
     <Card className={cn(
       "w-full bg-gradient-to-br from-[#FFE5D9] to-[#FFF9E6] border-4 border-[#FFB088] shadow-lg relative",
@@ -35,7 +50,7 @@ export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: Idea
         <CardTitle className="text-xl font-fredoka text-[#8B5CF6] animate-bounce-slight">{title}</CardTitle>
       </CardHeader>
       <CardContent className="py-3 px-5">
-        <p className="text-2xl font-bubblegum text-[#4B5563] min-h-[60px] leading-relaxed">{content}</p>
+        <p className="text-2xl font-bubblegum text-[#4B5563] min-h-[60px] leading-relaxed">{displayContent}</p>
       </CardContent>
     </Card>
   );

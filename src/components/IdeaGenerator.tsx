@@ -76,66 +76,75 @@ export function IdeaGenerator({ ideaComponents }: IdeaGeneratorProps) {
   };
 
   const generateNewIdea = async () => {
+    // First set the flipping states to trigger animations
     setFlippingStates({
       action: true,
       recipient: true,
       time: true
     });
     
+    // Generate new values immediately but don't update state yet
+    const newAction = generateNewAction();
+    const newRecipient = generateNewRecipient();
+    const newTime = generateNewTime();
+    
     await incrementCounter();
     
+    // The text will be updated mid-flip due to the useEffect in IdeaCard
+    setCurrentIdea({
+      action: newAction,
+      recipient: newRecipient,
+      time: newTime,
+    });
+    
+    // Reset flipping states after animation completes
     setTimeout(() => {
-      setCurrentIdea({
-        action: generateNewAction(),
-        recipient: generateNewRecipient(),
-        time: generateNewTime(),
-      });
-      setIsAnimating(true);
-      
       setFlippingStates({
         action: false,
         recipient: false,
         time: false
       });
-    }, 400);
-    
-    setTimeout(() => setIsAnimating(false), 1000);
+      setIsAnimating(false);
+    }, 800); // Full flip animation duration
   };
 
   const handleNewAction = async () => {
     setFlippingStates(prev => ({ ...prev, action: true }));
+    const newAction = generateNewAction();
     await incrementCounter();
+    setCurrentIdea(prev => ({
+      ...prev,
+      action: newAction,
+    }));
     setTimeout(() => {
-      setCurrentIdea(prev => ({
-        ...prev,
-        action: generateNewAction(),
-      }));
       setFlippingStates(prev => ({ ...prev, action: false }));
-    }, 400);
+    }, 800);
   };
 
   const handleNewRecipient = async () => {
     setFlippingStates(prev => ({ ...prev, recipient: true }));
+    const newRecipient = generateNewRecipient();
     await incrementCounter();
+    setCurrentIdea(prev => ({
+      ...prev,
+      recipient: newRecipient,
+    }));
     setTimeout(() => {
-      setCurrentIdea(prev => ({
-        ...prev,
-        recipient: generateNewRecipient(),
-      }));
       setFlippingStates(prev => ({ ...prev, recipient: false }));
-    }, 400);
+    }, 800);
   };
 
   const handleNewTime = async () => {
     setFlippingStates(prev => ({ ...prev, time: true }));
+    const newTime = generateNewTime();
     await incrementCounter();
+    setCurrentIdea(prev => ({
+      ...prev,
+      time: newTime,
+    }));
     setTimeout(() => {
-      setCurrentIdea(prev => ({
-        ...prev,
-        time: generateNewTime(),
-      }));
       setFlippingStates(prev => ({ ...prev, time: false }));
-    }, 400);
+    }, 800);
   };
 
   const fullIdeaText = `${currentIdea.action} ${currentIdea.recipient} ${currentIdea.time}`;
