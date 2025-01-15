@@ -163,22 +163,22 @@ const Index = () => {
   const fullIdeaText = `${currentIdea.action} ${currentIdea.recipient} ${currentIdea.time}`;
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-8 gap-8 bg-gradient-to-b from-[#F2FCE2] to-[#F1F0FB]">
+    <div className="min-h-screen flex flex-col items-center px-4 py-8 gap-8 bg-gradient-to-b from-[#FFE5F9] to-[#F0F7FF]">
       <div className="w-full max-w-2xl flex flex-col items-center gap-8">
-        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] via-[#D946EF] to-[#8B5CF6] text-center font-serif hover:scale-105 transition-transform duration-300 cursor-default">
+        <h1 className="text-5xl font-fredoka text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] via-[#D946EF] to-[#8B5CF6] text-center hover:scale-105 transition-transform duration-300 cursor-default animate-bounce-slight">
           The Chesed Machine
         </h1>
         
-        <p className="text-center text-lg text-[#4B5563]">
-          Tap the button below to generate a unique chesed idea just for you!
+        <p className="text-center text-xl font-bubblegum text-[#4B5563]">
+          Tap the magical button below to generate a unique chesed idea just for you! ✨
         </p>
 
         <Button 
           size="lg" 
-          className={`bg-[#8B5CF6] hover:bg-[#7C3AED] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 rounded-full px-8 py-6 font-semibold text-lg ${isAnimating ? 'animate-bounce' : ''}`}
+          className={`bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] hover:from-[#7C3AED] hover:to-[#C026D3] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 rounded-full px-8 py-6 font-fredoka text-xl ${isAnimating ? 'animate-bounce' : ''}`}
           onClick={generateNewIdea}
         >
-          Generate new idea!
+          Generate new idea! 🎉
         </Button>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
@@ -205,11 +205,11 @@ const Index = () => {
         <Button 
           size="lg"
           variant="outline" 
-          className="bg-white border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl rounded-full px-8 py-6 font-semibold text-lg flex flex-col leading-none"
+          className="bg-white/80 border-4 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl rounded-full px-8 py-6 font-fredoka text-xl flex flex-col leading-none"
           onClick={() => setShareOpen(true)}
         >
           <span>🎯 Yes! I'll Do This One! 🎯</span>
-          <span className="text-sm font-normal opacity-75 -mt-1">(bli neder)</span>
+          <span className="text-sm font-bubblegum opacity-75 mt-1">(bli neder)</span>
         </Button>
 
         <IdeasCounter count={counterData?.count || 0} />

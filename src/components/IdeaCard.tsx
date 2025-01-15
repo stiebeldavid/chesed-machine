@@ -13,27 +13,27 @@ interface IdeaCardProps {
 export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: IdeaCardProps) {
   return (
     <Card className={cn(
-      "w-full bg-gradient-to-br from-[#FDE1D3] to-[#FEF7CD] border-2 border-[#FEC6A1] shadow-lg relative",
+      "w-full bg-gradient-to-br from-[#FFE5D9] to-[#FFF9E6] border-4 border-[#FFB088] shadow-lg relative",
       "transform transition-all duration-500 hover:scale-105",
-      "perspective-1000",
+      "perspective-1000 rounded-2xl",
       isFlipping && "animate-flip"
     )}>
       <Button 
         variant="ghost" 
         size="icon"
-        className="absolute top-2 right-2 w-8 h-8 bg-white/50 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full"
+        className="absolute top-3 right-3 w-10 h-10 bg-white/70 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all"
         onClick={(e) => {
-          e.stopPropagation(); // Prevent event bubbling
+          e.stopPropagation();
           onNewIdea();
         }}
       >
-        <RefreshCw className="h-4 w-4" />
+        <RefreshCw className="h-5 w-5" />
       </Button>
-      <CardHeader className="py-3 px-4">
-        <CardTitle className="text-lg font-serif text-[#8B5CF6]">{title}</CardTitle>
+      <CardHeader className="py-4 px-5">
+        <CardTitle className="text-xl font-fredoka text-[#8B5CF6] animate-bounce-slight">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="py-2 px-4">
-        <p className="text-xl font-serif text-[#4B5563] min-h-[60px]">{content}</p>
+      <CardContent className="py-3 px-5">
+        <p className="text-2xl font-bubblegum text-[#4B5563] min-h-[60px] leading-relaxed">{content}</p>
       </CardContent>
     </Card>
   );
