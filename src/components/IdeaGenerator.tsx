@@ -153,7 +153,7 @@ export function IdeaGenerator({ ideaComponents }: IdeaGeneratorProps) {
     <div className="w-full max-w-2xl flex flex-col items-center gap-4">
       <Button 
         size="lg" 
-        className="bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] hover:from-[#7C3AED] hover:to-[#C026D3] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 rounded-full px-8 py-4 font-fredoka text-xl mb-2"
+        className="bg-gradient-to-r from-[#0EA5E9] to-[#1EAEDB] hover:from-[#0993D3] hover:to-[#1B9CC7] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 rounded-full px-8 py-4 font-fredoka text-xl mb-2"
         onClick={generateNewIdea}
       >
         Generate new idea! 🎉
@@ -183,7 +183,7 @@ export function IdeaGenerator({ ideaComponents }: IdeaGeneratorProps) {
       <Button 
         size="lg"
         variant="outline" 
-        className="bg-white/80 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl rounded-full px-8 py-2 font-fredoka text-xl flex flex-col gap-0 leading-none"
+        className="bg-white/80 border-2 border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB] hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl rounded-full px-8 py-2 font-fredoka text-xl flex flex-col gap-0 leading-none"
         onClick={() => setShareOpen(true)}
       >
         <span>🎯 Yes! I'll Do This One! 🎯</span>

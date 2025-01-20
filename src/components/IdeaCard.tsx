@@ -28,7 +28,7 @@ export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: Idea
 
   return (
     <Card className={cn(
-      "w-full bg-gradient-to-br from-[#FFE5D9] to-[#FFF9E6] border-4 border-[#FFB088] shadow-lg relative",
+      "w-full bg-gradient-to-br from-[#D3E4FD] to-[#F0F7FF] border-4 border-[#0EA5E9] shadow-lg relative",
       "transform transition-all duration-500 hover:scale-105",
       "perspective-1000 rounded-2xl",
       isFlipping && "animate-flip"
@@ -41,16 +41,16 @@ export function IdeaCard({ title, content, onNewIdea, isFlipping = false }: Idea
         <Button 
           variant="ghost" 
           size="icon"
-          className="w-10 h-10 p-0 bg-white/70 border-2 border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all pointer-events-none"
+          className="w-10 h-10 p-0 bg-white/70 border-2 border-[#1EAEDB] text-[#1EAEDB] hover:bg-[#1EAEDB] hover:text-white transition-colors duration-300 rounded-full shadow-md hover:shadow-lg transform hover:rotate-180 transition-all pointer-events-none"
         >
           <RefreshCw className="h-5 w-5" />
         </Button>
       </div>
       <CardHeader className="py-4 px-5">
-        <CardTitle className="text-xl font-fredoka text-[#8B5CF6] animate-bounce-slight">{title}</CardTitle>
+        <CardTitle className="text-xl font-fredoka text-[#1EAEDB] animate-bounce-slight">{title}</CardTitle>
       </CardHeader>
       <CardContent className="py-3 px-5">
-        <p className="text-2xl font-bubblegum text-[#4B5563] min-h-[60px] leading-relaxed">{displayContent}</p>
+        <p className="text-2xl font-bubblegum text-[#403E43] min-h-[60px] leading-relaxed">{displayContent}</p>
       </CardContent>
     </Card>
   );

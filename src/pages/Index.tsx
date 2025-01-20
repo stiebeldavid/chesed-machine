@@ -6,7 +6,7 @@ const Index = () => {
   const ideaComponents = useIdeaComponents();
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-4 gap-4 bg-gradient-to-b from-[#FFE5F9] to-[#F0F7FF]">
+    <div className="min-h-screen flex flex-col items-center px-4 py-4 gap-4 bg-gradient-to-b from-[#D3E4FD] to-[#F0F7FF]">
       <Header />
       <IdeaGenerator ideaComponents={ideaComponents} />
     </div>
