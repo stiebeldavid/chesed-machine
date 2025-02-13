@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Facebook, Copy, Twitter } from "lucide-react";
+import { Facebook, Copy, Twitter, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
@@ -97,6 +97,7 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
     const urls = {
       twitter: `https://twitter.com/intent/tweet?text=${text}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}&quote=${text}`,
+      whatsapp: `https://wa.me/?text=${text}`,
     };
     
     if (platform in urls) {
@@ -177,6 +178,10 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
                 <Button variant="outline" onClick={() => shareToSocial("twitter")}>
                   <Twitter className="mr-2 h-4 w-4" />
                   Tweet
+                </Button>
+                <Button variant="outline" onClick={() => shareToSocial("whatsapp")}>
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  WhatsApp
                 </Button>
               </div>
             </div>
