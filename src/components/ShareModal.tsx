@@ -60,8 +60,18 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
 
   const saveCommitment = async (includeReminder: boolean) => {
     setIsSubmitting(true);
+    console.log("Starting to save commitment...");
+    console.log("Data to save:", {
+      action,
+      recipient,
+      time,
+      full_text: ideaText,
+      name: includeReminder ? name : null,
+      email: includeReminder ? email : null
+    });
+
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('chesed_commitments')
         .insert([
           {
@@ -72,9 +82,15 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
             name: includeReminder ? name : null,
             email: includeReminder ? email : null
           }
-        ]);
+        ])
+        .select();
 
-      if (error) throw error;
+      console.log("Supabase response:", { data, error });
+
+      if (error) {
+        console.error("Supabase error:", error);
+        throw error;
+      }
 
       toast({
         title: "Awesome!",
@@ -88,6 +104,7 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
       }
       onOpenChange(false);
     } catch (error) {
+      console.error("Error in saveCommitment:", error);
       toast({
         title: "Error saving commitment",
         description: "Please try again",
