@@ -151,9 +151,6 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>That's great! Tizku L'Mitzvos!</DialogTitle>
-          <DialogDescription>
-            That's wonderful! This chesed idea has been saved.
-          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
           <p className="text-lg">{ideaText}</p>
