@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -5,7 +6,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Facebook, Copy, Twitter } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -157,6 +157,14 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
           
           {!showReminderForm ? (
             <div className="flex flex-col gap-4">
+              <Button 
+                variant="default" 
+                className="bg-[#0EA5E9] hover:bg-[#0993D3]"
+                onClick={() => setShowReminderForm(true)}
+              >
+                ⏰ Send me a reminder
+              </Button>
+              
               <div className="flex flex-wrap gap-2">
                 <Button variant="outline" onClick={copyToClipboard}>
                   <Copy className="mr-2 h-4 w-4" />
@@ -171,14 +179,6 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
                   Tweet
                 </Button>
               </div>
-              
-              <Button 
-                variant="default" 
-                className="bg-[#0EA5E9] hover:bg-[#0993D3]"
-                onClick={() => setShowReminderForm(true)}
-              >
-                ⏰ Send me a reminder
-              </Button>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
