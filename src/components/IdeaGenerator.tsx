@@ -196,6 +196,9 @@ export function IdeaGenerator({ ideaComponents }: IdeaGeneratorProps) {
             open={shareOpen}
             onOpenChange={setShareOpen}
             ideaText={fullIdeaText}
+            action={currentIdea.action}
+            recipient={currentIdea.recipient}
+            time={currentIdea.time}
           />
         </>
       )}
