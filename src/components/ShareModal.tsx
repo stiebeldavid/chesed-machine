@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -29,6 +29,53 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [savedCommitmentId, setSavedCommitmentId] = useState<number | null>(null);
+
+  // Save the commitment as soon as the modal opens
+  useEffect(() => {
+    if (open) {
+      saveInitialCommitment();
+    }
+  }, [open]);
+
+  const saveInitialCommitment = async () => {
+    console.log("Saving initial commitment...");
+    try {
+      const { data, error } = await supabase
+        .from('chesed_commitments')
+        .insert([
+          {
+            what: action,
+            whom: recipient,
+            when_to: time,
+          }
+        ])
+        .select();
+
+      console.log("Initial save response:", { data, error });
+
+      if (error) {
+        console.error("Initial save error:", error);
+        throw error;
+      }
+
+      if (data && data[0]) {
+        setSavedCommitmentId(data[0].id);
+      }
+
+      toast({
+        title: "Commitment saved!",
+        description: "Would you like us to send you a reminder?",
+      });
+    } catch (error) {
+      console.error("Error in initial save:", error);
+      toast({
+        title: "Error saving commitment",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
 
   const copyToClipboard = async () => {
     try {
@@ -58,53 +105,40 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
     }
   };
 
-  const saveCommitment = async (includeReminder: boolean) => {
+  const updateCommitmentWithReminder = async () => {
+    if (!savedCommitmentId) return;
+    
     setIsSubmitting(true);
-    console.log("Starting to save commitment...");
-    console.log("Data to save:", {
-      what: action,
-      whom: recipient,
-      when_to: time,
-      user_name: includeReminder ? name : null,
-      user_email: includeReminder ? email : null
-    });
+    console.log("Updating commitment with reminder details...");
 
     try {
       const { data, error } = await supabase
         .from('chesed_commitments')
-        .insert([
-          {
-            what: action,
-            whom: recipient,
-            when_to: time,
-            user_name: includeReminder ? name : null,
-            user_email: includeReminder ? email : null
-          }
-        ])
+        .update({
+          user_name: name,
+          user_email: email
+        })
+        .eq('id', savedCommitmentId)
         .select();
 
-      console.log("Supabase response:", { data, error });
+      console.log("Update response:", { data, error });
 
       if (error) {
-        console.error("Supabase error:", error);
+        console.error("Update error:", error);
         throw error;
       }
 
       toast({
-        title: "Awesome!",
-        description: includeReminder 
-          ? "Your commitment has been saved and we'll send you a reminder!" 
-          : "Your commitment has been saved!",
+        title: "Reminder set!",
+        description: "We'll send you a reminder for your commitment.",
       });
 
-      if (includeReminder) {
-        setShowReminderForm(false);
-      }
+      setShowReminderForm(false);
       onOpenChange(false);
     } catch (error) {
-      console.error("Error in saveCommitment:", error);
+      console.error("Error updating commitment:", error);
       toast({
-        title: "Error saving commitment",
+        title: "Error setting reminder",
         description: "Please try again",
         variant: "destructive",
       });
@@ -142,22 +176,13 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
                 </Button>
               </div>
               
-              <div className="flex flex-col gap-2">
-                <Button 
-                  variant="default" 
-                  className="bg-[#0EA5E9] hover:bg-[#0993D3]"
-                  onClick={() => setShowReminderForm(true)}
-                >
-                  ⏰ Send me a reminder
-                </Button>
-                <Button 
-                  variant="ghost"
-                  onClick={() => saveCommitment(false)}
-                  disabled={isSubmitting}
-                >
-                  No reminder needed
-                </Button>
-              </div>
+              <Button 
+                variant="default" 
+                className="bg-[#0EA5E9] hover:bg-[#0993D3]"
+                onClick={() => setShowReminderForm(true)}
+              >
+                ⏰ Send me a reminder
+              </Button>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
@@ -183,7 +208,7 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
               <Button 
                 variant="default"
                 className="bg-[#0EA5E9] hover:bg-[#0993D3]"
-                onClick={() => saveCommitment(true)}
+                onClick={updateCommitmentWithReminder}
                 disabled={isSubmitting || !name || !email}
               >
                 Save and remind me later
