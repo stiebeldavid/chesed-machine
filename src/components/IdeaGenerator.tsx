@@ -152,7 +152,7 @@ export function IdeaGenerator({ ideaComponents }: IdeaGeneratorProps) {
     <div className="w-full max-w-2xl flex flex-col items-center gap-4">
       <Button 
         size="lg" 
-        className={`bg-gradient-to-r from-[#0EA5E9] to-[#1EAEDB] hover:from-[#0993D3] hover:to-[#1B9CC7] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 rounded-full px-8 py-4 font-fredoka text-xl mb-2 ${!hasGeneratedFirstIdea ? 'animate-[wiggle_1s_ease-in-out_infinite]' : ''}`}
+        className={`bg-gradient-to-r from-[#0EA5E9] to-[#1EAEDB] hover:from-[#0993D3] hover:to-[#1B9CC7] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 rounded-full px-8 py-4 font-fredoka text-xl mb-2 ${!hasGeneratedFirstIdea ? 'animate-[wiggle_1.5s_ease-in-out_infinite]' : ''}`}
         onClick={generateNewIdea}
       >
         {!hasGeneratedFirstIdea ? "Click here for a new Chesed idea! 🎉" : "Generate new idea! 🎉"}
@@ -211,8 +211,8 @@ export function IdeaGenerator({ ideaComponents }: IdeaGeneratorProps) {
 const style = document.createElement('style');
 style.textContent = `
   @keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
+    0%, 100% { transform: rotate(-1deg); }
+    50% { transform: rotate(1deg); }
   }
 `;
 document.head.appendChild(style);
