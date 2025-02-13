@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -151,7 +150,7 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>I want to do this one!</DialogTitle>
+          <DialogTitle>That's great! Tizku L'Mitzvos!</DialogTitle>
           <DialogDescription>
             That's wonderful! This chesed idea has been saved.
           </DialogDescription>
