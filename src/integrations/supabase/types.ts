@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      chesed_commitments: {
+        Row: {
+          id: number
+          last_updated: string | null
+          user_email: string | null
+          user_name: string | null
+          what: string
+          when_to: string
+          whom: string
+        }
+        Insert: {
+          id?: number
+          last_updated?: string | null
+          user_email?: string | null
+          user_name?: string | null
+          what?: string
+          when_to?: string
+          whom?: string
+        }
+        Update: {
+          id?: number
+          last_updated?: string | null
+          user_email?: string | null
+          user_name?: string | null
+          what?: string
+          when_to?: string
+          whom?: string
+        }
+        Relationships: []
+      }
       Counter: {
         Row: {
           count: number
@@ -21,30 +51,6 @@ export type Database = {
         Update: {
           count?: number
           last_updated?: string | null
-        }
-        Relationships: []
-      }
-      idea_components: {
-        Row: {
-          id: number
-          last_updated: string | null
-          what: string[]
-          when_to: string[]
-          whom: string[]
-        }
-        Insert: {
-          id?: number
-          last_updated?: string | null
-          what?: string[]
-          when_to?: string[]
-          whom?: string[]
-        }
-        Update: {
-          id?: number
-          last_updated?: string | null
-          what?: string[]
-          when_to?: string[]
-          whom?: string[]
         }
         Relationships: []
       }

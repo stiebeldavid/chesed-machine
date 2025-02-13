@@ -62,12 +62,11 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
     setIsSubmitting(true);
     console.log("Starting to save commitment...");
     console.log("Data to save:", {
-      action,
-      recipient,
-      time,
-      full_text: ideaText,
-      name: includeReminder ? name : null,
-      email: includeReminder ? email : null
+      what: action,
+      whom: recipient,
+      when_to: time,
+      user_name: includeReminder ? name : null,
+      user_email: includeReminder ? email : null
     });
 
     try {
@@ -75,12 +74,11 @@ export function ShareModal({ open, onOpenChange, ideaText, action, recipient, ti
         .from('chesed_commitments')
         .insert([
           {
-            action,
-            recipient,
-            time,
-            full_text: ideaText,
-            name: includeReminder ? name : null,
-            email: includeReminder ? email : null
+            what: action,
+            whom: recipient,
+            when_to: time,
+            user_name: includeReminder ? name : null,
+            user_email: includeReminder ? email : null
           }
         ])
         .select();
