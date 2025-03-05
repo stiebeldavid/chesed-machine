@@ -11,18 +11,37 @@ import {
 import { Button } from "@/components/ui/button";
 import { Check, Info, Mail, Sparkles, ThumbsUp, Recycle, ArrowRight } from "lucide-react";
 
-export function WelcomeModal() {
-  const [isOpen, setIsOpen] = useState(false);
+interface WelcomeModalProps {
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showOnFirstVisit?: boolean;
+}
+
+export function WelcomeModal({ 
+  isOpen: externalIsOpen, 
+  onOpenChange: externalOnOpenChange,
+  showOnFirstVisit = true
+}: WelcomeModalProps) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  
+  // Determine if we're using internal or external state
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+  const setIsOpen = isControlled 
+    ? externalOnOpenChange 
+    : setInternalIsOpen;
 
   useEffect(() => {
-    // Check if this is the first visit
-    const hasVisited = localStorage.getItem("hasVisitedChessedMachine");
-    if (!hasVisited) {
-      setIsOpen(true);
-      // Set the flag so the modal doesn't show again
-      localStorage.setItem("hasVisitedChessedMachine", "true");
+    // Check if this is the first visit and we should show automatically
+    if (showOnFirstVisit) {
+      const hasVisited = localStorage.getItem("hasVisitedChessedMachine");
+      if (!hasVisited) {
+        setInternalIsOpen(true);
+        // Set the flag so the modal doesn't show again
+        localStorage.setItem("hasVisitedChessedMachine", "true");
+      }
     }
-  }, []);
+  }, [showOnFirstVisit]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
