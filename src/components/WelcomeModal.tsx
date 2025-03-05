@@ -1,36 +1,23 @@
-
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check, Info, Mail, Sparkles, ThumbsUp, Recycle, ArrowRight } from "lucide-react";
-
 interface WelcomeModalProps {
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   showOnFirstVisit?: boolean;
 }
-
-export function WelcomeModal({ 
-  isOpen: externalIsOpen, 
+export function WelcomeModal({
+  isOpen: externalIsOpen,
   onOpenChange: externalOnOpenChange,
   showOnFirstVisit = true
 }: WelcomeModalProps) {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
-  
+
   // Determine if we're using internal or external state
   const isControlled = externalIsOpen !== undefined;
   const isOpen = isControlled ? externalIsOpen : internalIsOpen;
-  const setIsOpen = isControlled 
-    ? externalOnOpenChange 
-    : setInternalIsOpen;
-
+  const setIsOpen = isControlled ? externalOnOpenChange : setInternalIsOpen;
   useEffect(() => {
     // Check if this is the first visit and we should show automatically
     if (showOnFirstVisit) {
@@ -42,9 +29,7 @@ export function WelcomeModal({
       }
     }
   }, [showOnFirstVisit]);
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+  return <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#EAF2FD] to-[#F8FBFF] border-[#0EA5E9] border-2">
         <DialogHeader>
           <DialogTitle className="text-3xl font-fredoka text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] via-[#1EAEDB] to-[#0EA5E9] flex items-center justify-center gap-2">
@@ -78,7 +63,7 @@ export function WelcomeModal({
             <p className="font-bold">Here's how it works:</p>
             <ol className="list-decimal list-inside space-y-2 pl-2">
               <li className="flex items-start">
-                Click the blue "Click here" button <ArrowRight className="inline h-5 w-5 mx-1 text-[#0EA5E9] animate-pulse" /> at the top of the page to get started generating your newest idea for a chesed project.
+                Click the blue "Click here" button  at the top of the page to get started generating your newest idea for a chesed project.
               </li>
               <li>
                 The suggestions for "what", "who", and "when" will appear as prompts in their respective boxes. You can:
@@ -89,7 +74,7 @@ export function WelcomeModal({
                 </ul>
               </li>
               <li className="flex items-start">
-                When you settle on your randomly chosen chesed idea, click the <Check className="inline h-4 w-4 mx-1 text-green-500" /> button to have your chesed logged and share to your various social media pages.
+                When you settle on your randomly chosen chesed idea, click the  button to have your chesed logged and share to your various social media pages.
               </li>
               <li className="text-[#E12A27] font-bold">
                 Make sure to press that button as your chesed will not be officially logged without it!
@@ -119,14 +104,10 @@ export function WelcomeModal({
         </div>
         
         <DialogFooter>
-          <Button 
-            onClick={() => setIsOpen(false)} 
-            className="w-full bg-gradient-to-r from-[#0EA5E9] to-[#38BDF8] hover:from-[#0890D7] hover:to-[#30B0E6] font-fredoka text-lg"
-          >
+          <Button onClick={() => setIsOpen(false)} className="w-full bg-gradient-to-r from-[#0EA5E9] to-[#38BDF8] hover:from-[#0890D7] hover:to-[#30B0E6] font-fredoka text-lg">
             Let's Get Started!
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 }
